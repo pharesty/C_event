@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400">
+    <g>
+        <!-- Yellow/Orange shapes -->
+        <rect x="50" y="100" width="80" height="80" rx="20" fill="#FFA500" opacity="0.7"/>
+        <rect x="130" y="180" width="80" height="80" rx="20" fill="#FFD700" opacity="0.7"/>
+        <rect x="210" y="100" width="80" height="80" rx="20" fill="#FFA500" opacity="0.7"/>
+
+        <!-- Blue shapes -->
+        <rect x="290" y="180" width="80" height="120" rx="20" fill="#4353FF" opacity="0.7"/>
+        <rect x="370" y="100" width="80" height="80" rx="20" fill="#4353FF" opacity="0.7"/>
+
+        <!-- Gray shapes -->
+        <rect x="210" y="260" width="80" height="80" rx="20" fill="#808080" opacity="0.7"/>
+    </g>
+</svg>

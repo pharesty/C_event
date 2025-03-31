@@ -33,4 +33,9 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
 });
 
+Route::get('/pricing', [App\Http\Controllers\PricingController::class, 'index'])->name('pricing');
+Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about');
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
+
+
 require __DIR__.'/auth.php';

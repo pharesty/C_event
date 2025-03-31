@@ -1,0 +1,213 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: white;
+}
+
+/* Navigation Styles */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+}
+
+nav .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav .menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+nav .menu a {
+    text-decoration: none;
+    color: gray;
+}
+
+nav .menu a.active {
+    color: #4169E1;
+}
+
+nav .menu .sign-up {
+    background-color: #4169E1;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 5%;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+nav {
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--primary-blue);
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.login-btn {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.signup-btn {
+    text-decoration: none;
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.signup-btn:hover {
+    background-color: #3144CC;
+}
+
+
+/* Pricing Header Styles */
+.pricing-header {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.pricing-header h1 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.pricing-header p {
+    color: gray;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Pricing Cards Styles */
+.pricing-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+.card {
+    width: 350px;
+    border: 1px solid #E0E0E0;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.card .price {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.card .price-detail {
+    color: gray;
+    font-size: 14px;
+}
+
+.card .description {
+    color: gray;
+    margin-bottom: 25px;
+}
+
+.card button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #4169E1;
+    color: #4169E1;
+    background: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card button:hover {
+    background-color: #F0F4FF;
+}
+
+.pro-card {
+    border-color: #4169E1;
+}
+
+.pro-card .tag {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4169E1;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.pro-card button {
+    background-color: #4169E1;
+    color: white;
+    border: none;
+}
+
+.pro-card button:hover {
+    background-color: #3A5FCA;
+}
