@@ -5,13 +5,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMR_event</title>
+    <title>CMR_event- Contact</title>
     <link rel="stylesheet" href="{{ asset('assets/css/contact.css') }}">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+header {
+    background-color: #4F46E5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    position: relative;
+}
+
+.logo::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30%;
+    height: 3px;
+    background-color: #F59E0B;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #F59E0B;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.login-btn, .signup-btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    border: 1px solid white;
+    color: white;
+    background: transparent;
+}
+
+.login-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.signup-btn {
+    background-color: white;
+    color: #4F46E5;
+    border: 1px solid transparent;
+}
+
+.signup-btn:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+    </style>
     
 </head>
 
 <body>
-    <header>
+<header>
         <div class="nav-container">
             <div class="logo">C_event</div>
             <nav>
@@ -24,11 +138,10 @@
             </nav>
             <div class="auth-buttons">
                 @if (Route::has('login'))
-                <!-- <nav class="flex items-center justify-end gap-4"> -->
                 @auth
                 <a
                     href="{{ url('/dashboard') }}"
-                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                    class="login-btn">
                     Dashboard
                 </a>
                 @else
@@ -37,7 +150,6 @@
                     class="login-btn">
                     Log in
                 </a>
-
                 @if (Route::has('register'))
                 <a
                     href="{{ route('register') }}"
@@ -46,12 +158,8 @@
                 </a>
                 @endif
                 @endauth
-                <!-- </nav> -->
                 @endif
-                <!-- <a href="#login" class="login-btn">Log in</a>
-                <a href="#signup" class="signup-btn">Sign up</a> -->
             </div>
-
         </div>
     </header>
     <main class="contact-page">
@@ -166,13 +274,30 @@
 
     <footer>
         <div class="footer-container">
-            <div class="footer-content">
-                <p>&copy; 2025 Event Manager. All rights reserved.</p>
+      
+            <div class="footer-section">
+                <div class="footer-logo">C_event</div>
+                <p class="footer-description">Your trusted platform for organizing and discovering community events that bring people together and strengthen bonds.</p>
                 <div class="social-links">
-                    <a href="#" class="social-icon">Twitter</a>
-                    <a href="#" class="social-icon">Facebook</a>
-                    <a href="#" class="social-icon">LinkedIn</a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="far fa-envelope"></i></a>
                 </div>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/support">Support</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="copyright">
+            <p>&copy; 2025 C_event. All rights reserved.</p>
+        </div>
+
             </div>
         </div>
     </footer>
@@ -232,22 +357,22 @@
                 console.log('Form data:', data);
 
                 // In a real-world scenario, you'd use fetch or axios
-                // fetch('/api/contact', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify(data)
-                // })
-                // .then(response => response.json())
-                // .then(result => {
-                //     // Handle successful submission
-                //     alert('Message sent successfully!');
-                // })
-                // .catch(error => {
-                //     // Handle errors
-                //     alert('Failed to send message. Please try again.');
-                // });
+                fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    // Handle successful submission
+                    alert('Message sent successfully!');
+                })
+                .catch(error => {
+                    // Handle errors
+                    alert('Failed to send message. Please try again.');
+                });
 
                 alert('Message sent successfully!');
                 contactForm.reset();

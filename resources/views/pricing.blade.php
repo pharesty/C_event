@@ -3,124 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMR_event</title>
+    <title>CMR_event- Pricing</title>
     <!-- <link rel="stylesheet" href="{{ asset('assets/css/price.css') }}"> -->
     <style>
         /* Reset et styles de base */
-* {
+        * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: var(--light-bg);
+    color: var(--text-color);
     line-height: 1.6;
 }
 
-/* Header et navigation */
 header {
-    width: 100%;
-    background-color: #ffffff;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: #4F46E5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 0;
 }
 
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 2rem;
 }
 
-/* Logo */
 .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #000000;
-    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    position: relative;
 }
 
-/* Navigation */
-nav {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+.logo::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30%;
+    height: 3px;
+    background-color: #F59E0B;
 }
 
 .nav-links {
     display: flex;
     list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links li {
-    margin: 0 15px;
+    gap: 2rem;
 }
 
 .nav-links a {
     text-decoration: none;
-    color: #333333;
-    font-size: 16px;
-    transition: color 0.2s ease;
-    padding: 5px 0;
-}
-
-.nav-links a:hover {
-    color: #0066cc;
-}
-
-.nav-links a.active {
-    color: #0066cc;
+    color: white;
     font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
 }
 
-/* Boutons d'authentification */
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #F59E0B;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
 .auth-buttons {
     display: flex;
+    gap: 1rem;
     align-items: center;
 }
 
-.login-btn {
-    color: #333333;
+.login-btn, .signup-btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--border-radius);
     text-decoration: none;
-    margin-right: 15px;
-    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    border: 1px solid white;
+    color: white;
+    background: transparent;
+}
+
+.login-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .signup-btn {
-    background-color: #0066cc;
-    color: white !important;
-    padding: 8px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    background-color: white;
+    color: #4F46E5;
+    border: 1px solid transparent;
 }
 
 .signup-btn:hover {
-    background-color: #0055b3;
-}
-
-/* Style pour le bouton Dashboard */
-.auth-buttons .inline-block {
-    padding: 8px 20px;
-    color: #333;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-}
-
-.auth-buttons .inline-block:hover {
-    border-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 /* Styles pour l'en-tête de la page de pricing */
@@ -300,7 +297,7 @@ nav {
     </style>
 </head>
 <body>
-    <header>
+<header>
         <div class="nav-container">
             <div class="logo">C_event</div>
             <nav>
@@ -312,37 +309,29 @@ nav {
                 </ul>
             </nav>
             <div class="auth-buttons">
-            @if (Route::has('login'))
-            <!-- <nav class="flex items-center justify-end gap-4"> -->
+                @if (Route::has('login'))
                 @auth
-                    <a
-                        href="{{ url('/dashboard') }}"
-                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                    >
-                        Dashboard
-                    </a>
+                <a
+                    href="{{ url('/dashboard') }}"
+                    class="login-btn">
+                    Dashboard
+                </a>
                 @else
-                    <a
-                        href="{{ route('login') }}"
-                        class="login-btn"
-                    >
-                        Log in
-                    </a>
-
-                    @if (Route::has('register'))
-                        <a
-                            href="{{ route('register') }}"
-                            class="signup-btn">
-                            Register
-                        </a>
-                    @endif
+                <a
+                    href="{{ route('login') }}"
+                    class="login-btn">
+                    Log in
+                </a>
+                @if (Route::has('register'))
+                <a
+                    href="{{ route('register') }}"
+                    class="signup-btn">
+                    Register
+                </a>
+                @endif
                 @endauth
-            <!-- </nav> -->
-        @endif
-                <!-- <a href="#login" class="login-btn">Log in</a>
-                <a href="#signup" class="signup-btn">Sign up</a> -->
+                @endif
             </div>
-           
         </div>
     </header>
 
@@ -354,23 +343,23 @@ nav {
     <div class="pricing-cards">
         <div class="card">
             <h2>Basic</h2>
-            <div class="price">$9 <span class="price-detail">/month</span></div>
-            <p class="description">For individuals and small teams</p>
-            <button>Get Started with Basic</button>
+            <div class="price">7500XAF <span class="price-detail">/month</span></div>
+            <p class="description">For individuals and small teams event. </p>
+            <button> Get Started with Basic </button>
         </div>
 
         <div class="card pro-card">
             <div class="tag">Most Popular</div>
             <h2>Pro</h2>
-            <div class="price">$19 <span class="price-detail">/month</span></div>
-            <p class="description">For startups and growing businesses</p>
+            <div class="price">15000XAF <span class="price-detail">/month</span></div>
+            <p class="description">For startups, conferences and growing businesses <br> For events information and a reduction of 25% per event reservation. </p>
             <button>Get Started with Pro</button>
         </div>
 
         <div class="card">
             <h2>Business</h2>
-            <div class="price">$99 <span class="price-detail">/month</span></div>
-            <p class="description">For organizations with advanced needs</p>
+            <div class="price">25000XAF <span class="price-detail">/month</span></div>
+            <p class="description">For organizations with advanced needs <br> For events information and a reduction of 20% per event reservation. </p>
             <button>Get Started with Business</button>
         </div>
 

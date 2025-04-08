@@ -26,6 +26,17 @@ Route::middleware('auth')->group(function () {
 // Admin Routes
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    
+        Route::get('/events', [AdminController::class, 'events'])->name('events');
+        Route::get('/reservations', [AdminController::class, 'reservations'])->name('reservations');
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+        
+        // Routes pour les actions:
+        Route::post('/reservations/{id}/confirm', [AdminController::class, 'confirmReservation'])->name('reservations.confirm');
+        Route::get('/reservations/{id}', [AdminController::class, 'showReservation'])->name('reservations.show');
+    
+
 });
 
 // User Routes
@@ -35,7 +46,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 Route::get('/pricing', [App\Http\Controllers\PricingController::class, 'index'])->name('pricing');
 Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about');
-Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
+    Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
+    Route::get('/event', [App\Http\Controllers\DashboardController::class, 'index'])->name('event');
 
 
 require __DIR__.'/auth.php';

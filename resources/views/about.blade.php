@@ -4,83 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CMR_event- About us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+        :root{
+            --border-radius: 8px
         }
-        
-        body {
-            background-color: #f0f0f0;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header styles */
-        header {
-            background-color: white;
-            padding: 15px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-weight: bold;
-            font-size: 24px;
-            color: #000;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 25px;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-size: 16px;
-        }
-        
-        .nav-links a.active {
-            font-weight: bold;
-            color: #0066cc;
-        }
-        
-        .auth-buttons {
-            display: flex;
-            align-items: center;
-        }
-        
-        .login-btn {
-            margin-right: 15px;
-            color: #333;
-            text-decoration: none;
-        }
-        
-        .signup-btn {
-            background-color: #0066cc;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-        
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+header {
+    background-color: #4F46E5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    position: relative;
+}
+
+.logo::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30%;
+    height: 3px;
+    background-color: #F59E0B;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #F59E0B;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.login-btn, .signup-btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    border: 1px solid white;
+    color: white;
+    background: transparent;
+}
+
+.login-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.signup-btn {
+    background-color: white;
+    color: #4F46E5;
+    border: 1px solid transparent;
+}
+
+.signup-btn:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
         /* Main content styles */
         .about-section {
             text-align: center;
@@ -141,21 +183,41 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
+<header>
+        <div class="nav-container">
+            <div class="logo">C_event</div>
             <nav>
-                <a href="#" class="logo" >C_event</a>
                 <ul class="nav-links">
                     <li><a href="/">Home</a></li>
                     <li><a href="/pricing">Pricing</a></li>
-                    <li><a href="/about" class="active">About us</a></li>
+                    <li><a href="/about">About us</a></li>
                     <li><a href="/contact">Contact</a></li>
                 </ul>
-                <div class="auth-buttons">
-                    <a href="#" class="login-btn">Log in</a>
-                    <a href="#" class="signup-btn">Sign up</a>
-                </div>
             </nav>
+            <div class="auth-buttons">
+                @if (Route::has('login'))
+                @auth
+                <a
+                    href="{{ url('/dashboard') }}"
+                    class="login-btn">
+                    Dashboard
+                </a>
+                @else
+                <a
+                    href="{{ route('login') }}"
+                    class="login-btn">
+                    Log in
+                </a>
+                @if (Route::has('register'))
+                <a
+                    href="{{ route('register') }}"
+                    class="signup-btn">
+                    Register
+                </a>
+                @endif
+                @endauth
+                @endif
+            </div>
         </div>
     </header>
 
