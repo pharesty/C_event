@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CMR_event</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+
+            /* Styling for the show popup button - using ID instead of tag */
+            #showPopupBtn {
+                background-color: #3366cc;
+                color: white;
+                padding: 14px 24px;
+                border-radius: 6px;
+                font-size: 16px;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 4px 10px rgba(51, 102, 204, 0.3);
+                transition: all 0.3s ease;
+            }
+
+            #showPopupBtn:hover {
+                background-color: #2855b0;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(51, 102, 204, 0.4);
+            }
+
+            #showPopupBtn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 6px rgba(51, 102, 204, 0.3);
+            }
+
+            /* Overlay for the popup */
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: none;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            }
+
+            .popup {
+                background-color: white;
+                border-radius: 10px;
+                padding: 30px;
+                width: 450px;
+                max-height: 90vh; /* Set max height to prevent overflow on large screens */
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+                position: relative;
+                overflow-y: auto; /* Allow scrolling if content overflows */
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE and Edge */
+            }
+
+            /* Close icon styling */
+            .close-icon {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+                transition: transform 0.3s ease;
+                z-index: 10;
+            }
+
+            .close-icon:hover {
+                transform: rotate(90deg);
+            }
+
+            .close-icon::before,
+            .close-icon::after {
+                content: "";
+                position: absolute;
+                width: 24px;
+                height: 2px;
+                background-color: #777;
+                top: 50%;
+                left: 0;
+            }
+
+            .close-icon::before {
+                transform: rotate(45deg);
+            }
+
+            .close-icon::after {
+                transform: rotate(-45deg);
+            }
+
+            .header {
+                text-align: center;
+                margin-bottom: 25px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 15px;
+            }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+                background-color: #3366cc;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+
+            .logo span {
+                color: white;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            /* Using class for h2 instead of tag selector */
+            .form-title {
+                color: #333;
+                margin-top: 10px;
+                margin-bottom: 5px;
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            .subtitle {
+                color: #777;
+                font-size: 14px;
+                margin-bottom: 0;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            /* Using class for label instead of tag selector */
+            .form-label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+                color: #555;
+            }
+
+            /* Using classes for form elements instead of tag selectors */
+            .form-input,
+            .form-select,
+            .form-textarea {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 16px;
+                box-sizing: border-box;
+            }
+
+            .form-textarea {
+                height: 100px;
+                resize: vertical;
+            }
+
+            .button-group {
+                display: flex;
+                gap: 10px;
+            }
+
+            /* Using class for button instead of tag selector */
+            .btn {
+                padding: 12px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                border: none;
+                flex: 1;
+            }
+
+            .submit-btn {
+                background-color: #3366cc;
+                color: white;
+            }
+
+            .submit-btn:hover {
+                background-color: #2855b0;
+            }
+
+            .cancel-btn {
+                background-color: #f0f0f0;
+                color: #333;
+            }
+
+            .cancel-btn:hover {
+                background-color: #e0e0e0;
+            }
+
+            .required {
+                color: #e74c3c;
+                margin-left: 3px;
+            }
+
+            .file-upload {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+                border: 2px dashed #ddd;
+                border-radius: 5px;
+                text-align: center;
+                margin-bottom: 20px;
+                transition: all 0.3s ease;
+            }
+
+            .file-upload:hover {
+                border-color: #3366cc;
+            }
+
+            .file-upload-icon {
+                width: 50px;
+                height: 50px;
+                background-color: #f0f0f0;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+
+            .file-upload-icon svg {
+                width: 25px;
+                height: 25px;
+                fill: #777;
+            }
+
+            .file-upload-text {
+                color: #555;
+                margin-bottom: 10px;
+            }
+
+            .file-upload-btn {
+                background-color: #f0f0f0;
+                color: #333;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                border: none;
+                font-size: 14px;
+                transition: all 0.3s ease;
+            }
+
+            .file-upload-btn:hover {
+                background-color: #e0e0e0;
+            }
+
+            .file-upload input[type="file"] {
+                display: none;
+            }
+
+            .file-types {
+                color: #777;
+                font-size: 12px;
+                margin-top: 5px;
+            }
+
+            .preview-container {
+                display: none;
+                margin-top: 10px;
+                text-align: center;
+            }
+
+            .preview-image {
+                max-width: 100%;
+                max-height: 200px;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+            }
+
+            .date-time-group {
+                display: flex;
+                gap: 10px;
+            }
+
+            .date-time-group > div {
+                flex: 1;
+            }
+
+            .duration-container {
+                display: flex;
+                gap: 10px;
+            }
+
+            .duration-container > div {
+                flex: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Button to trigger popup -->
+        <button id="showPopupBtn">Create Event</button>
+
+        <!-- Overlay for popup -->
+        <div class="overlay">
+            <!-- The popup form -->
+            <div class="popup">
+                <!-- Close icon -->
+                <div class="close-icon" id="closePopup"></div>
+
+                <div class="header">
+                    <div class="logo">
+                        <span>E</span>
+                    </div>
+                    <h2 class="form-title">Create New Event</h2>
+                    <p class="subtitle">
+                        Complete the form below to create your event
+                    </p>
+                </div>
+
+                <form class="event-form">
+                    <div class="form-group">
+                        <label class="form-label" for="eventName">
+                            Event Name <span class="required">*</span>
+                        </label>
+                        <input
+                            class="form-input"
+                            type="text"
+                            id="eventName"
+                            name="eventName"
+                            placeholder="Enter event name"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Event Date & Time <span class="required">*</span>
+                        </label>
+                        <div class="date-time-group">
+                            <div>
+                                <input
+                                    class="form-input"
+                                    type="date"
+                                    id="eventDate"
+                                    name="eventDate"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <input
+                                    class="form-input"
+                                    type="time"
+                                    id="eventTime"
+                                    name="eventTime"
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Event Duration <span class="required">*</span>
+                        </label>
+                        <div class="duration-container">
+                            <div>
+                                <select
+                                    class="form-select"
+                                    id="durationHours"
+                                    name="durationHours"
+                                    required
+                                >
+                                    <option value="" disabled selected>
+                                        Hours
+                                    </option>
+                                    <option value="1">1 hour</option>
+                                    <option value="2">2 hours</option>
+                                    <option value="3">3 hours</option>
+                                    <option value="4">4 hours</option>
+                                    <option value="5">5 hours</option>
+                                    <option value="6">6 hours</option>
+                                    <option value="8">8 hours</option>
+                                    <option value="10">10 hours</option>
+                                    <option value="12">12 hours</option>
+                                    <option value="24">24 hours</option>
+                                    <option value="48">2 days</option>
+                                    <option value="72">3 days</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select
+                                    class="form-select"
+                                    id="durationMinutes"
+                                    name="durationMinutes"
+                                    required
+                                >
+                                    <option value="0" selected>
+                                        0 minutes
+                                    </option>
+                                    <option value="15">15 minutes</option>
+                                    <option value="30">30 minutes</option>
+                                    <option value="45">45 minutes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="eventType">
+                            Event Type <span class="required">*</span>
+                        </label>
+                        <select
+                            class="form-select"
+                            id="eventType"
+                            name="eventType"
+                            required
+                        >
+                            <option value="" disabled selected>
+                                Select event type
+                            </option>
+                            <option value="mariage">Mariage</option>
+                            <option value="concert">Concert</option>
+                            <option value="seminary">Seminary</option>
+                            <option value="match">Match</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="numberOfPlaces">
+                            Number of Places <span class="required">*</span>
+                        </label>
+                        <select
+                            class="form-select"
+                            id="numberOfPlaces"
+                            name="numberOfPlaces"
+                            required
+                        >
+                            <option value="" disabled selected>
+                                Select capacity
+                            </option>
+                            <option value="250">>=250</option>
+                            <option value="500">>=500</option>
+                            <option value="1000">>=1000</option>
+                            <option value="2500">>=2500</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="eventLocation">
+                            Event Location <span class="required">*</span>
+                        </label>
+                        <select
+                            class="form-select"
+                            id="eventLocation"
+                            name="eventLocation"
+                            required
+                        >
+                            <option value="" disabled selected>
+                                Select venue location
+                            </option>
+                            <option value="conference_center">
+                                Conference Center
+                            </option>
+                            <option value="stadium">Stadium</option>
+                            <option value="concert_hall">Concert Hall</option>
+                            <option value="exhibition_center">
+                                Exhibition Center
+                            </option>
+                            <option value="hotel_ballroom">
+                                Hotel Ballroom
+                            </option>
+                            <option value="outdoor_venue">Outdoor Venue</option>
+                            <option value="theater">Theater</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Event Image / Flyer</label>
+                        <div class="file-upload">
+                            <div class="file-upload-icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <div class="file-upload-text">
+                                Drag & drop image here or
+                            </div>
+                            <label for="eventImage" class="file-upload-btn">
+                                Browse Files
+                            </label>
+                            <input
+                                type="file"
+                                id="eventImage"
+                                name="eventImage"
+                                accept="image/*"
+                            />
+                            <div class="file-types">
+                                Accepted formats: JPG, PNG, GIF (max 5MB)
+                            </div>
+                            <div class="preview-container">
+                                <img
+                                    id="imagePreview"
+                                    class="preview-image"
+                                    src="/api/placeholder/300/200"
+                                    alt="Event Image Preview"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="eventDescription"
+                            >Event Description</label
+                        >
+                        <textarea
+                            class="form-textarea"
+                            id="eventDescription"
+                            name="eventDescription"
+                            placeholder="Add any additional details about your event..."
+                        ></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button
+                            type="button"
+                            class="btn cancel-btn"
+                            id="cancelBtn"
+                        >
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn submit-btn">
+                            Create Event
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            // Get the elements
+            const showPopupBtn = document.getElementById("showPopupBtn");
+            const overlay = document.querySelector(".overlay");
+            const popup = document.querySelector(".popup");
+            const closePopup = document.getElementById("closePopup");
+            const cancelBtn = document.getElementById("cancelBtn");
+            const fileInput = document.getElementById("eventImage");
+            const previewContainer =
+                document.querySelector(".preview-container");
+            const imagePreview = document.getElementById("imagePreview");
+
+            // Show the popup when the button is clicked
+            showPopupBtn.addEventListener("click", function () {
+                overlay.style.display = "flex"; // Show the overlay with popup
+            });
+
+            // Close the popup when the close icon is clicked
+            closePopup.addEventListener("click", function () {
+                overlay.style.display = "none";
+            });
+
+            // Close the popup when the cancel button is clicked
+            cancelBtn.addEventListener("click", function () {
+                overlay.style.display = "none";
+            });
+
+            // Close the popup when clicking outside of it
+            overlay.addEventListener("click", function (event) {
+                if (event.target === overlay) {
+                    overlay.style.display = "none";
+                }
+            });
+
+            // Prevent popup from closing when clicking inside it
+            popup.addEventListener("click", function (event) {
+                event.stopPropagation();
+            });
+
+            // Handle file upload preview
+            fileInput.addEventListener("change", function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.addEventListener("load", function () {
+                        imagePreview.setAttribute("src", this.result);
+                        previewContainer.style.display = "block";
+                    });
+
+                    reader.readAsDataURL(file);
+                }
+            });
+        </script>
+    </body>
+</html>

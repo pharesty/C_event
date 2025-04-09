@@ -11,22 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-       
-
-    Schema::create('events', function (Blueprint $table) {
-        $table->id();
-        $table->string('title');
-        $table->date('date');
-        $table->time('start_time');
-        $table->time('end_time');
-        $table->string('status')->default('pending'); // active, pending, cancelled
-        $table->text('description')->nullable();
-        $table->integer('capacity')->default(0);
-        $table->integer('participants_count')->default(0);
-        $table->timestamps();
-    });
-}
-    
+        Schema::create('events', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->dateTime('start_date_time');
+            $table->integer('duration_hours');
+            $table->integer('duration_minutes');
+            $table->string('type');
+            $table->string('capacity');
+            $table->string('location');
+            $table->string('image_path')->nullable();
+            $table->text('description')->nullable();
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
